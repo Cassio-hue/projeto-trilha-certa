@@ -1,44 +1,49 @@
 <html lang="pt-br">
+
 <head>
-    <meta charset="utf-8">
-    <title>HTML Login Form</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin-login.css') }}">
+  <meta charset="utf-8">
+  <title>HTML Login Form</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin-login.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
+
 <body>
-      <div class="main">
-            <h1>GeeksforGeeks</h1>
-            <h3>Enter your login credentials</h3>
-            <form action="">
-                  <label for="first">
-                        Username:
-                  </label>
-                  <input type="text" 
-                         id="first" 
-                         name="first" 
-                         placeholder="Enter your Username" required>
+  <main>
+    <h1>Trilha Certa</h1>
+    <h3>Acesse com seuas credenciais</h3>
+    <form method="post">
+      <label for="login">
+        Login:
+      </label>
+      <input type="text" id="login" name="first" placeholder="Digite seu usuário" required>
 
-                  <label for="password">
-                        Password:
-                  </label>
-                  <input type="password"
-                         id="password" 
-                         name="password"
-                         placeholder="Enter your Password" required>
-
-                  <div class="wrap">
-                        <button type="submit"
-                                onclick="solve()">
-                              Submit
-                        </button>
-                  </div>
-            </form>
-            <p>Not registered?
-                  <a href="/"
-                     style="text-decoration: none;">
-                        Create an account
-                  </a>
-            </p>
+      <label for="password">
+        Senha:
+      </label>
+      <div class="password-wrapper">
+        <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+        <i class="far fa-eye" id="togglePassword"></i>
       </div>
-</body>
-</html>
 
+      <div class="wrap">
+        <button type="submit" onclick="solve()">
+          Entrar
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function (e) {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      this.classList.toggle('fa-eye-slash');
+    });
+  </script>
+</body>
+
+</html>
