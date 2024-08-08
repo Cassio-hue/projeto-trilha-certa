@@ -6,7 +6,7 @@ Projeto final da disciplina de Fundamentos de Sistemas Operacionais
 
 # Configuração local
 1. Clonar o repositório
-   Os passos abaxios são feitos dentro do projeto.
+- Os passos abaixo são feitos dentro do projeto.
 
 3. Criar ambiente virtual e instalar o Flask
 - `python3 -m venv .venv` 
