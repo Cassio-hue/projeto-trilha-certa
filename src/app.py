@@ -4,9 +4,13 @@ from db.db import Service
 app = Flask(__name__, template_folder='templates', static_folder='static')
 service = Service()
 
+# Tela e rotas do login do aluno
+
 @app.route("/", methods=['GET', 'POST'])
 def aluno_login():
   return render_template('aluno/login.html')
+
+# Tela e rotas do login do admin
 
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
@@ -17,15 +21,13 @@ def login():
   login = request.form.get('login')
   senha = request.form.get('password')
 
-  print(service.login_aluno(login))
-
-  if (service.login_aluno(login)):
-    return 'aluno logou'
-
   if service.logar(login, senha):
-    return 'não smt'
+    return render_template('admin/menu.html')
   else:
-    return 'smt'
+    return render_template('admin/login.html', error='Login ou senha inválidos')
+  
+#Tela e rotas do menu do admin
+
 @app.route("/admin/menu", methods=['GET', 'POST'])
 def admin_menu():
     return render_template('admin/menu.html')

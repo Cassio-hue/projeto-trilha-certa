@@ -26,6 +26,12 @@
         <i class="far fa-eye" id="togglePassword"></i>
       </div>
       
+      <div class="error">
+        {% if error %}
+        <span>{{ error }}</span>
+        {% endif %} 
+      </div>
+      
       <div class="wrap">
         <button type="submit">
           Entrar

@@ -47,3 +47,9 @@ button {
   right: 10px;
   top: 23%;
 }
+
+span {
+  color: #f13333;
+  font-weight: bold;
+  cursor: pointer;
+}
