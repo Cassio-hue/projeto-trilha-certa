@@ -1,0 +1,59 @@
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <title>HTML Login Form</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin-menu.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+
+<body>
+  <main>
+    <h1>Trilha Certa</h1>
+    <h3>Cadastre o CPF dos alunos</h3>
+    <form method="post">
+      <label for="cpf">
+        CPF:
+      </label>
+      <input type="text" id="cpf" name="cpf" placeholder="Digite o CPF do aluno" required>
+
+      <div class="wrap">
+        <button type="submit" onclick="solve()">
+          Cadastrar CPF
+        </button>
+      </div>
+    </form>
+
+    <div class="register-wrapper">
+      <div class="wrap">
+        <button type="button" onclick="solve()">
+          Iniciar período de mátriculas
+        </button>
+      </div>
+
+      <div class="wrap">
+        <button type="button" onclick="solve()">
+          Consultar matrículas
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    
+    document.getElementById('cpf').addEventListener('input', function(e) {
+		var value = e.target.value;
+		var cpfPattern = value.replace(/\D/g, '')
+							  .replace(/(\d{3})(\d)/, '$1.$2')
+							  .replace(/(\d{3})(\d)/, '$1.$2')
+							  .replace(/(\d{3})(\d)/, '$1-$2')
+							  .replace(/(-\d{2})\d+?$/, '$1');
+		e.target.value = cpfPattern;
+	});
+
+  </script>
+
+</body>
+
+</html>

@@ -1,11 +1,47 @@
 <html lang="pt-br">
+
 <head>
-    <meta charset="utf-8">
-    <title>HTML Login Form</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/aluno/aluno-login.css') }}">
+  <meta charset="utf-8">
+  <title>HTML Login Form</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/aluno/aluno-login.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
+
 <body>
-    <h1>Hello, world!</h1>
+
+  <script>
+    
+    document.getElementById('cpf').addEventListener('input', function(e) {
+		var value = e.target.value;
+		var cpfPattern = value.replace(/\D/g, '')
+							  .replace(/(\d{3})(\d)/, '$1.$2')
+							  .replace(/(\d{3})(\d)/, '$1.$2')
+							  .replace(/(\d{3})(\d)/, '$1-$2')
+							  .replace(/(-\d{2})\d+?$/, '$1');
+		e.target.value = cpfPattern;
+
+	});
+
+  </script>
+
+  <main>
+    <h1>Trilha Certa</h1>
+    <form method="post">
+      <label for="cpf">
+        Acesse com seu CPF:
+      </label>
+      <input type="text" id="cpf" name="first" placeholder="Digite seu CPF" required>
+      
+      <div class="wrap">
+        <button type="submit" onclick="solve()">
+          Entrar
+        </button>
+      </div>
+    </form>
+  </main>
+
 </body>
+
 </html>
 
