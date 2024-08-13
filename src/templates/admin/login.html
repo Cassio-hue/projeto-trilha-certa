@@ -12,11 +12,11 @@
   <main>
     <h1>Trilha Certa</h1>
     <h3>Acesse com seuas credenciais</h3>
-    <form method="post">
+    <form method="post" action="/admin/login">
       <label for="login">
         Login:
       </label>
-      <input type="text" id="login" name="first" placeholder="Digite seu usuário" required>
+      <input type="text" id="login" name="login" placeholder="Digite seu usuário" required>
 
       <label for="password">
         Senha:
@@ -27,7 +27,7 @@
       </div>
 
       <div class="wrap">
-        <button type="submit" onclick="solve()">
+        <button type="submit">
           Entrar
         </button>
       </div>
