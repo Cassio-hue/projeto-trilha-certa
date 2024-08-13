@@ -42,3 +42,15 @@ button {
   padding: 10px;
   border: 1px solid #ddd;
 }
+
+.error-span {
+  color: #f13333;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.success-span {
+  color: #4CAF50;
+  font-weight: bold;
+  cursor: pointer;
+}

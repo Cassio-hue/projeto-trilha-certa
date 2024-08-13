@@ -17,16 +17,20 @@ class Service():
 
 
   def criar_aluno(self, cpf):
-    arquivo = open(os.path.join(self.path, self.estudantes), "a")
-    arquivo.write(cpf + '\n')
-    arquivo.close()
+    try:
+      arquivo = open(os.path.join(self.path, self.estudantes), "a")
+      arquivo.write(cpf + '\n')
+      arquivo.close()
+      return True
+    except:
+      return False
+
+
 
   def login_aluno(self, cpf):
-    print(self.path)
     arquivo = open(os.path.join(self.path, self.estudantes), "r")
     data = arquivo.read()
     arquivo.close()
-
 
     data = data.split('\n')
 

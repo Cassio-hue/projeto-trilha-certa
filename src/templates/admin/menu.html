@@ -12,14 +12,26 @@
   <main>
     <h1>Trilha Certa</h1>
     <h3>Cadastre o CPF dos alunos</h3>
-    <form method="post">
+    <form method="post" action="/admin/criar_aluno">
       <label for="cpf">
         CPF:
       </label>
       <input type="text" id="cpf" name="cpf" placeholder="Digite o CPF do aluno" required>
 
+      <div class="success">
+        {% if success %}
+        <span class="success-span">{{ success }}</span>
+        {% endif %}
+      </div>
+
+      <div class="error">
+        {% if error %}
+        <span class="error-span">{{ error }}</span>
+        {% endif %}
+      </div>
+
       <div class="wrap">
-        <button type="submit" onclick="solve()">
+        <button type="submit">
           Cadastrar CPF
         </button>
       </div>

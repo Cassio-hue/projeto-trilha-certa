@@ -32,6 +32,15 @@ def login():
 def admin_menu():
     return render_template('admin/menu.html')
 
+@app.post("/admin/criar_aluno")
+def criar_aluno():
+  cpf = request.form.get('cpf')
+  if service.criar_aluno(cpf):
+    return render_template('admin/menu.html', success='Aluno criado com sucesso')
+  else:
+    return render_template('admin/menu.html', error='Erro ao criar aluno')
+  
+
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=5000, debug=True)
