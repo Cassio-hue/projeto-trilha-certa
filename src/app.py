@@ -10,6 +10,14 @@ service = Service()
 def aluno_login():
   return render_template('aluno/login.html')
 
+@app.post("/aluno/login")
+def logar_aluno():
+    cpf = request.form.get('cpf')
+    if service.login_aluno(cpf):
+        return 'aluno logado'
+    else:
+        return render_template('aluno/login.html', error='CPF não cadastrado')
+
 # Tela e rotas do login do admin
 
 @app.route("/admin", methods=['GET', 'POST'])

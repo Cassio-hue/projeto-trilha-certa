@@ -27,14 +27,20 @@
 
   <main>
     <h1>Trilha Certa</h1>
-    <form method="post">
+    <form method="post" action="/aluno/login">
       <label for="cpf">
         Acesse com seu CPF:
       </label>
-      <input type="text" id="cpf" name="first" placeholder="Digite seu CPF" required>
+      <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required>
+
+      <div class="error">
+        {% if error %}
+        <span class="error-span">{{ error }}</span>
+        {% endif %}
+      </div>
       
       <div class="wrap">
-        <button type="submit" onclick="solve()">
+        <button type="submit">
           Entrar
         </button>
       </div>

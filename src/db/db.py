@@ -25,13 +25,12 @@ class Service():
     except:
       return False
 
-
-
   def login_aluno(self, cpf):
     arquivo = open(os.path.join(self.path, self.estudantes), "r")
     data = arquivo.read()
     arquivo.close()
 
     data = data.split('\n')
+    print(data, cpf)
 
     return cpf in data

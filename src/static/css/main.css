@@ -12,3 +12,9 @@ body {
   flex-direction: column;
   margin: 0;
 }
+
+.error-span {
+  color: #f13333;
+  font-weight: bold;
+  cursor: pointer;
+}
