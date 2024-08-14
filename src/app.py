@@ -1,48 +1,54 @@
-import os
-import platform
+from flask import Flask, render_template, request
+from db.db import Service
 
-class Service():
-    def __init__(self):
-        self.admin = 'admin.txt'
-        self.estudantes = 'estudantes.txt'
+app = Flask(__name__, template_folder='templates', static_folder='static')
+service = Service()
 
-        if platform.system() == 'Linux':
-            # LINUX
-            self.path = os.getcwd() + '/src/db/'
-        else:
-            #WINDOWS
-            self.path = os.getcwd() + '\\src\\db\\'
+# Tela e rotas do login do aluno
 
-    def ler(self, arquivo):
-        arquivo = open(self.path + arquivo, "r")
-        data = arquivo.read()
-        arquivo.close()
+@app.route("/", methods=['GET', 'POST'])
+def aluno_login():
+  return render_template('aluno/login.html')
 
-        return data
+@app.post("/aluno/login")
+def logar_aluno():
+    cpf = request.form.get('cpf')
+    if service.logar_aluno(cpf):
+        return 'aluno logado'
+    else:
+        return render_template('aluno/login.html', error='CPF não cadastrado')
 
-    def escrever(self, arquivo, data):
-        arquivo = open(self.path + arquivo, "a")
-        arquivo.write(data)
-        arquivo.close()
+# Tela e rotas do login do admin
 
-    def logar_admin(self, usr_login, usr_senha):
-        data = self.ler(self.admin)
+@app.route("/admin", methods=['GET', 'POST'])
+def admin():
+  return render_template('admin/login.html')
 
-        [login, senha] = data.split(';')
+@app.post("/admin/login")
+def login():
+  login = request.form.get('login')
+  senha = request.form.get('password')
 
-        return (usr_login == login) and (usr_senha == senha)
+  if service.logar_admin(login, senha):
+    return render_template('admin/menu.html')
+  else:
+    return render_template('admin/login.html', error='Login ou senha inválidos')
+  
+#Tela e rotas do menu do admin
 
-    def logar_aluno(self, cpf):
-        data = self.ler(self.estudantes)
-        cpfs = data.split(';')
+@app.route("/admin/menu", methods=['GET', 'POST'])
+def admin_menu():
+    return render_template('admin/menu.html')
 
-        return cpf in cpfs
+@app.post("/admin/criar_aluno")
+def criar_aluno():
+  cpf = request.form.get('cpf')
+  if service.criar_aluno(cpf):
+    return render_template('admin/menu.html', success='Aluno criado com sucesso')
+  else:
+    return render_template('admin/menu.html', error='Erro ao criar aluno')
+  
 
-    def criar_aluno(self, cpf):
-        if (cpf.isnumeric() and cpf.len() != 11):
-            return False
 
-        cpf = cpf.replace('.', '').replace('-', '')
-        self.escrever(self.estudantes, cpf)
-
-        return True
+if __name__ == "__main__":
+  app.run(host="0.0.0.0", port=5000, debug=True)
