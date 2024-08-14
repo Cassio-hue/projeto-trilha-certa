@@ -5,23 +5,17 @@ class Service():
     def __init__(self):
         self.admin = 'admin.txt'
         self.estudantes = 'estudantes.txt'
-
-        if platform.system() == 'Linux':
-            # LINUX
-            self.path = os.getcwd() + '/src/db/'
-        else:
-            #WINDOWS
-            self.path = os.getcwd() + '\\src\\db\\'
+        self.path = os.path.join(os.getcwd(), 'src', 'db')
 
     def ler(self, arquivo):
-        arquivo = open(self.path + arquivo, "r")
+        arquivo = open(os.path.join(self.path, arquivo), "r")
         data = arquivo.read()
         arquivo.close()
 
         return data
 
     def escrever(self, arquivo, data):
-        arquivo = open(self.path + arquivo, "a")
+        arquivo = open(os.path.join(self.path, arquivo), "a")
         arquivo.write(data)
         arquivo.close()
 
