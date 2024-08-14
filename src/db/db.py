@@ -1,36 +1,47 @@
 import os
+import platform
 
 class Service():
-  def __init__(self):
-    self.admin = 'admin.txt'
-    self.estudantes = 'estudantes.txt'
-    self.path = os.path.join(os.getcwd(), 'src', 'db')
+    def __init__(self):
+        self.admin = 'admin.txt'
+        self.estudantes = 'estudantes.txt'
 
-  def logar(self, usr_login, usr_senha):
-    arquivo = open(os.path.join(self.path, self.admin), "r")
-    data = arquivo.read()
-    arquivo.close()
+        if platform.system() == 'Linux':
+            # LINUX
+            self.path = os.getcwd() + '/src/db/'
+        else:
+            #WINDOWS
+            self.path = os.getcwd() + '\\src\\db\\'
 
-    [login, senha] = data.split(';')
+    def ler(self, arquivo):
+        arquivo = open(self.path + arquivo, "r")
+        data = arquivo.read()
+        arquivo.close()
 
-    return usr_login == login and usr_senha == senha
+        return data
 
+    def escrever(self, arquivo, data):
+        arquivo = open(self.path + arquivo, "a")
+        arquivo.write(data)
+        arquivo.close()
 
-  def criar_aluno(self, cpf):
-    try:
-      arquivo = open(os.path.join(self.path, self.estudantes), "a")
-      arquivo.write(cpf + '\n')
-      arquivo.close()
-      return True
-    except:
-      return False
+    def logar_admin(self, usr_login, usr_senha):
+        data = self.ler(self.admin)
 
-  def login_aluno(self, cpf):
-    arquivo = open(os.path.join(self.path, self.estudantes), "r")
-    data = arquivo.read()
-    arquivo.close()
+        [login, senha] = data.split(';')
 
-    data = data.split('\n')
-    print(data, cpf)
+        return (usr_login == login) and (usr_senha == senha)
 
-    return cpf in data
+    def logar_aluno(self, cpf):
+        data = self.ler(self.estudantes)
+
+        return cpf in data
+
+    def criar_aluno(self, cpf):
+        if (cpf.isnumeric() and cpf.len() != 11):
+            return False
+
+        cpf = cpf.replace('.', '').replace('-', '')
+        self.escrever(self.estudantes, cpf)
+
+        return True
