@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request
-from db.db import Service
+from flask import Flask, render_template, request, redirect, url_for
+from db.db import Service, Periodo
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 service = Service()
+periodo = Periodo()
+
 
 # Tela e rotas do login do aluno
 
@@ -26,24 +28,31 @@ def admin():
     login = request.form.get('login')
     senha = request.form.get('password')
     if service.logar_admin(login, senha):
-      return render_template('admin/menu.html')
+      return app.redirect(app.url_for('admin_menu'), 200)
     else:
+      return app.redirect(app.url_for('admin_menu'), 500)
       return render_template('admin/login.html', error='Login ou senha inválidos')
 
   return render_template('admin/login.html')
 
 #Tela e rotas do menu do admin
 
-@app.route("/admin/menu", methods=['GET', 'POST'])
+@app.get("/admin/menu")
 def admin_menu():
-    if (request.method == 'POST'):
-        cpf = request.form.get('cpf')
-        if service.criar_aluno(cpf):
-            return render_template('admin/menu.html', success='Aluno criado com sucesso')
-        else:
-            return render_template('admin/menu.html', error='Erro ao criar aluno')
+  return render_template('admin/menu.html')
 
+@app.post("/admin/criar-aluno")
+def criar_aluno():
+    cpf = request.form.get('cpf')
+    if service.criar_aluno(cpf):
+        return redirect(url_for('admin_menu'))
+        return render_template('admin/menu.html', success='Aluno criado com sucesso')
+    else:
+        return render_template('admin/menu.html', error='Erro ao criar aluno')
 
+@app.post("/admin/abrir-periodo")
+def abrir_periodo():
+    periodo.abrir(service)
     return render_template('admin/menu.html')
   
 

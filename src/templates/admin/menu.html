@@ -12,7 +12,7 @@
   <main>
     <h1>Trilha Certa</h1>
     <h3>Cadastre o CPF dos alunos</h3>
-    <form method="post" action="/admin/menu">
+    <form method="post" action="/admin/criar-aluno">
       <label for="cpf">
         CPF:
       </label>
@@ -37,9 +37,9 @@
       </div>
     </form>
 
-    <div class="register-wrapper">
+    <div class="register-wrapper" >
       <div class="wrap">
-        <button type="button" onclick="solve()">
+        <button type="reset" onclick="abrirPeriodo()">
           Iniciar período de mátriculas
         </button>
       </div>
@@ -63,6 +63,16 @@
 							  .replace(/(-\d{2})\d+?$/, '$1');
 		e.target.value = cpfPattern;
 	});
+
+  async function abrirPeriodo () {
+    fetch('http://127.0.0.1:5000/admin/abrir-periodo', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+  }
+
 
   </script>
 
