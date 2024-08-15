@@ -1,44 +1,75 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from db.db import Service, Periodo
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
 service = Service()
 periodo = Periodo()
 
+def auth_guard():
+  if 'role' not in session:
+    return False
+  return True
 
-# Tela e rotas do login do aluno
+def admin_guard():
+  if 'role' in session:
+    if session['role'] == 'ADMIN':
+      return True
+
+  return False
+
+def remove_session():
+  session.pop('role', None)
+  session.pop('cpf_aluno', None)
+
+
+@app.get("/logout")
+def logout():
+  remove_session()
+  return app.redirect(app.url_for('index'))
 
 @app.route("/", methods=['GET', 'POST'])
-def aluno_login():
-  return render_template('aluno/login.html')
+def index():
+  if (auth_guard()):
+    return app.redirect(app.url_for('aluno_menu'))
 
-@app.post("/aluno/login")
-def logar_aluno():
+  if (request.method == 'POST'):
+    remove_session()
     cpf = request.form.get('cpf')
     if service.logar_aluno(cpf):
-        return 'aluno logado'
-    else:
-        return render_template('aluno/login.html', error='CPF não cadastrado')
+      session['cpf_aluno'] = request.form['cpf']
+      session['role'] = 'ALUNO'
+      return 'aluno logado'
 
-# Tela e rotas do login do admin
+  return render_template('aluno/login.html')
 
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
+  if (not admin_guard() and auth_guard()):
+    return app.redirect(app.url_for('index'))
+
   if (request.method == 'POST'):
+    remove_session()
     login = request.form.get('login')
     senha = request.form.get('password')
     if service.logar_admin(login, senha):
-      return app.redirect(app.url_for('admin_menu'), 200)
+      session['role'] = 'ADMIN'
+      return app.redirect(app.url_for('admin_menu'))
     else:
-      return app.redirect(app.url_for('admin_menu'), 500)
-      return render_template('admin/login.html', error='Login ou senha inválidos')
+      return app.redirect(app.url_for('admin'))
+  elif (auth_guard()):
+    return app.redirect(app.url_for('admin_menu'))
 
   return render_template('admin/login.html')
 
-#Tela e rotas do menu do admin
 
 @app.get("/admin/menu")
 def admin_menu():
+  print(session)
+  print(auth_guard())
+  if not (admin_guard()):
+    return app.redirect(app.url_for('index'))
   return render_template('admin/menu.html')
 
 @app.post("/admin/criar-aluno")
