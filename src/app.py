@@ -70,16 +70,17 @@ def admin_menu():
   print(auth_guard())
   if not (admin_guard()):
     return app.redirect(app.url_for('index'))
-  return render_template('admin/menu.html')
+  
+  total_alunos, total_max_alunos = service.total_alunos()
+  return render_template('admin/menu.html', total_alunos=total_alunos, total_max_alunos=total_max_alunos)
 
 @app.post("/admin/criar-aluno")
 def criar_aluno():
     cpf = request.form.get('cpf')
     if service.criar_aluno(cpf):
         return redirect(url_for('admin_menu'))
-        return render_template('admin/menu.html', success='Aluno criado com sucesso')
     else:
-        return render_template('admin/menu.html', error='Erro ao criar aluno')
+        return redirect(url_for('admin_menu'))
 
 @app.post("/admin/abrir-periodo")
 def abrir_periodo():

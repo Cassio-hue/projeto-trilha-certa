@@ -54,3 +54,9 @@ button {
   font-weight: bold;
   cursor: pointer;
 }
+
+.total-alunos {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}

@@ -14,6 +14,8 @@ class Service():
         self.turma_h = 'turma_h.txt'
         self.path = os.path.join(os.getcwd(), 'src', 'db')
 
+        self.total_max_cpfs = 240
+
     def ler(self, arquivo):
         arquivo = open(os.path.join(self.path, arquivo), "r")
         data = arquivo.read()
@@ -39,6 +41,11 @@ class Service():
         return cpf in data
 
     def criar_aluno(self, cpf):
+        total_max_alunos, _ = self.total_alunos()
+
+        if total_max_alunos == self.total_max_cpfs:
+            return False
+
         cpf = cpf.replace('.', '').replace('-', '')
         if (cpf.isnumeric() and len(cpf) != 11):
             return False
@@ -46,6 +53,13 @@ class Service():
         self.escrever(self.estudantes, cpf + '\n')
 
         return True
+    
+    def total_alunos(self):
+        data = self.ler(self.estudantes)
+        data = data.split('\n')
+        data.pop()
+
+        return (len(data), self.total_max_cpfs)
     
 
 class Periodo():
