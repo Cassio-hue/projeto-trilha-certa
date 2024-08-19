@@ -37,6 +37,7 @@ class Service():
 
     def logar_aluno(self, cpf):
         data = self.ler(self.estudantes)
+        cpf = cpf.replace('.', '').replace('-', '')
 
         return cpf in data
 
@@ -67,14 +68,14 @@ class Periodo():
         self.alunos_total = 0
         self.is_open = False
         self.turmas = {
-            'A': Turma(),
-            'B': Turma(),
-            'C': Turma(),
-            'D': Turma(),
-            'E': Turma(),
-            'F': Turma(),
-            'G': Turma(),
-            'H': Turma()
+            'A': Turma('A'),
+            'B': Turma('B'),
+            'C': Turma('C'),
+            'D': Turma('D'),
+            'E': Turma('E'),
+            'F': Turma('F'),
+            'G': Turma('G'),
+            'H': Turma('H')
         }
 
     def abrir(self, service: Service):
@@ -82,30 +83,23 @@ class Periodo():
         estudantes = estudantes.split('\n')
         estudantes.pop() # Remove o último elemento que é uma string vazia
         self.alunos_total = len(estudantes)
-        print(estudantes)
 
-        print(self.alunos_total)
         if (self.alunos_total % 8 == 0):
             for turma in self.turmas:
                 self.turmas[turma].max = self.alunos_total // 8
         else:
             min = self.alunos_total // 8
-            print('valor min turmas ' + str(min))
 
             for turma in self.turmas:
                 self.turmas[turma].max = min
 
             resto = self.alunos_total % 8
-            print('valor resto ' + str(resto))
 
             for turma in self.turmas:
                 if resto == 0:
                     break
                 self.turmas[turma].max += 1
                 resto -= 1
-
-        for turma in self.turmas:
-          print(f'Turma {turma}: {self.turmas[turma].max}')
 
         self.is_open = True
 
@@ -121,9 +115,21 @@ class Periodo():
         return total
 
 class Turma():
-    def __init__(self):
-        self.total = 0
+    def __init__(self, turma_id):
+        self.turma_id = turma_id
+        self.alunos = []
         self.max = None
 
-    def inscrever_aluno(self, cpf,  turma, service: Service):
-        self.total += 1
+    def inscrever_aluno(self, cpf, service: Service):
+        if cpf in self.alunos:
+            return False
+        
+        if len(self.alunos) == self.max:
+            return False
+        
+        service.escrever(service.turma_a, cpf + '\n')
+        self.alunos.append(cpf)
+
+        print(self.alunos)
+
+

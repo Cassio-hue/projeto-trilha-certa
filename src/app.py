@@ -66,8 +66,6 @@ def admin():
 
 @app.get("/admin/menu")
 def admin_menu():
-  print(session)
-  print(auth_guard())
   if not (admin_guard()):
     return app.redirect(app.url_for('index'))
   
@@ -86,7 +84,13 @@ def criar_aluno():
 def abrir_periodo():
     periodo.abrir(service)
     return render_template('admin/menu.html')
-  
+
+@app.post("/aluno/matricular/<turma>")
+def matricular_aluno(turma):
+    cpf = session['cpf_aluno']
+    periodo.turmas[turma].inscrever_aluno(cpf, service)
+
+    return 'Sucesso'
 
 
 if __name__ == "__main__":
