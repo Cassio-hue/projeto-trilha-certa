@@ -1,0 +1,73 @@
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <title>HTML Login Form</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin-menu.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/aluno/aluno-menu.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+
+<body>
+  <main>
+    <h1>Trilha Certa</h1>
+    <h3>Matricule-se em alguma turma:</h3>
+    <form method="post" action="/aluno/matricular/">
+
+      <select type="text" id="turmas" name="turmas" placeholder="Escolha uma turma" required>
+        <option value="A">Turma A</option>
+        <option value="B">Turma B</option>
+        <option value="C">Turma C</option>
+        <option value="D">Turma D</option>
+        <option value="F">Turma F</option>
+        <option value="G">Turma G</option>
+        <option value="H">Turma H</option>
+      </select>
+
+      <div class="wrap">
+        <button type="button" onclick={handleModal()}>
+          Concluir Matrícula
+        </button>
+      </div>
+
+      <div class="modal">
+        <div class="modal-content">
+          <p id="title"></p>   
+          <button type="button" class="cancel" onclick={handleModal()}>Cancelar</button>
+          <button type="button" onclick={handleSave()}>Sim</button>
+        </div>
+      </div>
+
+    </form>
+
+    </div>
+  </main>
+
+  <script>
+
+    function handleSave() {
+      option = document.getElementById('turmas')
+      console.log(option.value);
+      handleModal();
+    }
+
+    function handleModal() {
+      const modal = document.querySelector('.modal');
+      const actualStyle = modal.style.display;
+      if (actualStyle === 'block') {
+        modal.style.display = 'none';
+      } else {
+        modal.style.display = 'block';
+      }
+
+      option = document.getElementById('turmas')
+      title = document.getElementById('title')
+      option? title.innerHTML = `Tem certeza que deseja se matricular na turma ${option.value}?` : title.innerHTML = `Tem certeza que deseja se matricular na turma A?`
+    }
+
+  </script>
+
+</body>
+
+</html>
