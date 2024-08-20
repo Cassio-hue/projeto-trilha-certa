@@ -40,7 +40,7 @@ def index():
     if service.logar_aluno(cpf):
       session['cpf_aluno'] = request.form['cpf']
       session['role'] = 'ALUNO'
-      return 'aluno logado'
+      return app.redirect(app.url_for('aluno_menu'))
 
   return render_template('aluno/login.html')
 
@@ -85,12 +85,12 @@ def abrir_periodo():
     periodo.abrir(service)
     return render_template('admin/menu.html')
 
-@app.post("/aluno/matricular/<turma>")
-def matricular_aluno(turma):
-    cpf = session['cpf_aluno']
-    periodo.turmas[turma].inscrever_aluno(cpf, service)
+@app.route("/aluno_menu", methods=['GET', 'POST'])
+def aluno_menu():
+    # cpf = session['cpf_aluno']
+    # periodo.turmas[turma].inscrever_aluno(cpf, service)
 
-    return 'Sucesso'
+    return render_template('aluno/menu.html')
 
 
 if __name__ == "__main__":
