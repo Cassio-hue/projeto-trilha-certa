@@ -110,20 +110,13 @@ class Periodo():
     def fechar(self):
         self.is_open = False
 
-    def calcular_total(self):
-        total = 0
-
-        for turma in self.turmas:
-            total += turma.total
-
-        return total
-
 class Turma():
     def __init__(self, turma_id):
         self.turma_id = turma_id
         self.alunos = []
         self.max = None
 
+    # Inscreve aluno em uma turma específica
     def inscrever_aluno(self, cpf, service: Service):
         if cpf in self.alunos:
             return False
