@@ -1,5 +1,5 @@
 import os
-from src.utils.validade_cpf import validar_cpf
+from utils.validade_cpf import validar_cpf
 
 class Service():
     def __init__(self):
