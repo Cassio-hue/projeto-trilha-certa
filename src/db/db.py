@@ -43,14 +43,18 @@ class Service():
 
     def criar_aluno(self, cpf):
         total_max_alunos, _ = self.total_alunos()
-
-        if total_max_alunos == self.total_max_cpfs:
-            return False
-
+        
         cpf = cpf.replace('.', '').replace('-', '')
         if (cpf.isnumeric() and len(cpf) != 11):
             return False
 
+        data = self.ler(self.estudantes).split('\n')
+        if cpf in data:
+            return False
+
+        if total_max_alunos == self.total_max_cpfs:
+            return False
+        
         self.escrever(self.estudantes, cpf + '\n')
 
         return True
