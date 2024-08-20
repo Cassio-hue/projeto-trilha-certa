@@ -92,6 +92,13 @@ def aluno_menu():
 
     return render_template('aluno/menu.html')
 
+@app.post("/aluno/matricular/<turma>")
+def matricular(turma):
+    cpf = session['cpf_aluno']
+    periodo.turmas[turma].inscrever_aluno(cpf, service)
+
+    return render_template('aluno/menu.html')
+
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=5000, debug=True)

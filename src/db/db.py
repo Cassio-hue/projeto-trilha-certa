@@ -5,14 +5,14 @@ class Service():
     def __init__(self):
         self.admin = 'admin.txt'
         self.estudantes = 'estudantes.txt'
-        self.turma_a = 'turma_a.txt'
-        self.turma_b = 'turma_b.txt'
-        self.turma_c = 'turma_c.txt'
-        self.turma_d = 'turma_d.txt'
-        self.turma_e = 'turma_e.txt'
-        self.turma_f = 'turma_f.txt'
-        self.turma_g = 'turma_g.txt'
-        self.turma_h = 'turma_h.txt'
+        # self.turma_a = 'turma_a.txt'
+        # self.turma_b = 'turma_b.txt'
+        # self.turma_c = 'turma_c.txt'
+        # self.turma_d = 'turma_d.txt'
+        # self.turma_e = 'turma_e.txt'
+        # self.turma_f = 'turma_f.txt'
+        # self.turma_g = 'turma_g.txt'
+        # self.turma_h = 'turma_h.txt'
         self.path = os.path.join(os.getcwd(), 'src', 'db')
 
         self.total_max_cpfs = 240
@@ -76,14 +76,14 @@ class Periodo():
         self.alunos_total = 0
         self.is_open = False
         self.turmas = {
-            'A': Turma('A'),
-            'B': Turma('B'),
-            'C': Turma('C'),
-            'D': Turma('D'),
-            'E': Turma('E'),
-            'F': Turma('F'),
-            'G': Turma('G'),
-            'H': Turma('H')
+            'A': Turma('turma_a.txt'),
+            'B': Turma('turma_b.txt'),
+            'C': Turma('turma_c.txt'),
+            'D': Turma('turma_d.txt'),
+            'E': Turma('turma_e.txt'),
+            'F': Turma('turma_f.txt'),
+            'G': Turma('turma_g.txt'),
+            'H': Turma('turma_h.txt')
         }
 
     def abrir(self, service: Service):
@@ -115,20 +115,22 @@ class Periodo():
         self.is_open = False
 
 class Turma():
-    def __init__(self, turma_id):
-        self.turma_id = turma_id
+    def __init__(self, path):
+        self.path = path
         self.alunos = []
         self.max = None
 
     # Inscreve aluno em uma turma específica
     def inscrever_aluno(self, cpf, service: Service):
+        cpf = cpf.replace('.', '').replace('-', '')
+
         if cpf in self.alunos:
             return False
         
         if len(self.alunos) == self.max:
             return False
         
-        service.escrever(service.turma_a, cpf + '\n')
+        service.escrever(self.path, cpf + '\n')
         self.alunos.append(cpf)
 
         print(self.alunos)

@@ -13,7 +13,7 @@
   <main>
     <h1>Trilha Certa</h1>
     <h3>Matricule-se em alguma turma:</h3>
-    <form method="post" action="/aluno/matricular/">
+    <form method="post">
 
       <select type="text" id="turmas" name="turmas" placeholder="Escolha uma turma" required>
         <option value="A">Turma A</option>
@@ -48,7 +48,9 @@
 
     function handleSave() {
       option = document.getElementById('turmas')
-      console.log(option.value);
+      form = document.querySelector('form')
+      form.action = `/aluno/matricular/${option.value}`
+      form.submit()
       handleModal();
     }
 
@@ -60,6 +62,8 @@
       } else {
         modal.style.display = 'block';
       }
+
+      // Colocar lock e limite de tempo para fechar
 
       option = document.getElementById('turmas')
       title = document.getElementById('title')
