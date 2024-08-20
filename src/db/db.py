@@ -5,14 +5,6 @@ class Service():
     def __init__(self):
         self.admin = 'admin.txt'
         self.estudantes = 'estudantes.txt'
-        # self.turma_a = 'turma_a.txt'
-        # self.turma_b = 'turma_b.txt'
-        # self.turma_c = 'turma_c.txt'
-        # self.turma_d = 'turma_d.txt'
-        # self.turma_e = 'turma_e.txt'
-        # self.turma_f = 'turma_f.txt'
-        # self.turma_g = 'turma_g.txt'
-        # self.turma_h = 'turma_h.txt'
         self.path = os.path.join(os.getcwd(), 'src', 'db')
 
         self.total_max_cpfs = 240
