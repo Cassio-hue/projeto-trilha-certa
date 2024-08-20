@@ -1,4 +1,5 @@
 import os
+from src.utils.validade_cpf import validar_cpf
 
 class Service():
     def __init__(self):
@@ -39,13 +40,16 @@ class Service():
         data = self.ler(self.estudantes)
         cpf = cpf.replace('.', '').replace('-', '')
 
-        return cpf in data
+        if validar_cpf(cpf):
+          return cpf in data
+        
+        return False
 
     def criar_aluno(self, cpf):
         total_max_alunos, _ = self.total_alunos()
         
         cpf = cpf.replace('.', '').replace('-', '')
-        if (cpf.isnumeric() and len(cpf) != 11):
+        if (cpf.isnumeric() and not validar_cpf(cpf)):
             return False
 
         data = self.ler(self.estudantes).split('\n')
