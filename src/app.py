@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from db.db import Service, Periodo
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -20,7 +20,7 @@ def admin_guard():
   return False
 
 def periodo_guard():
-  if periodo.is_open:
+  if periodo.getIsOpen():
     return True
 
   return False
@@ -60,6 +60,7 @@ def index():
         return app.redirect(app.url_for('periodo_fechado'))
       
       return app.redirect(app.url_for('aluno_menu'))
+    flash("CPF inválido ou não cadastrado", "error")
 
   return render_template('aluno/login.html')
 
@@ -76,6 +77,7 @@ def admin():
       session['role'] = 'ADMIN'
       return app.redirect(app.url_for('admin_menu'))
     else:
+      flash("Login ou senha incorretos", "error")
       return app.redirect(app.url_for('admin'))
   elif (auth_guard()):
     return app.redirect(app.url_for('admin_menu'))
@@ -102,7 +104,8 @@ def criar_aluno():
 @app.post("/admin/abrir-periodo")
 def abrir_periodo():
     periodo.abrir(service)
-    return render_template('admin/menu.html')
+    flash("Período aberto com sucesso", "success")
+    return redirect(url_for('admin_menu'))
 
 @app.route("/aluno_menu", methods=['GET', 'POST'])
 def aluno_menu():
@@ -117,10 +120,13 @@ def aluno_menu():
       # cpf = session['cpf_aluno']
       # periodo.turmas[turma].inscrever_aluno(cpf, service)
 
-    return render_template('aluno/menu.html')
+  return render_template('aluno/menu.html')
 
 @app.post("/aluno/matricular/<turma>")
 def matricular(turma):
+    if (periodo.getIsOpen()):
+      return render_template('aluno/menu.html ')
+
     cpf = session['cpf_aluno']
     periodo.turmas[turma].inscrever_aluno(cpf, service)
 

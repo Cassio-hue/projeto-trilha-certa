@@ -48,7 +48,7 @@ button {
   top: 23%;
 }
 
-span {
+.error {
   color: #f13333;
   font-weight: bold;
   cursor: pointer;

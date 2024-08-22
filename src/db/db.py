@@ -106,6 +106,9 @@ class Periodo():
     def fechar(self):
         self.is_open = False
 
+    def getIsOpen(self):
+        return self.is_open
+
 class Turma():
     def __init__(self, path):
         self.path = path
