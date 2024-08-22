@@ -49,10 +49,9 @@ button {
   cursor: pointer;
 }
 
-.success-span {
+.success {
   color: #4CAF50;
   font-weight: bold;
-  cursor: pointer;
 }
 
 .total-alunos {

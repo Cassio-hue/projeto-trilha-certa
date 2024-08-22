@@ -28,12 +28,20 @@
       </div>
     </form>
 
-    <div class="register-wrapper" >
-      <div class="wrap">
-        <button type="reset" onclick="abrirPeriodo()">
-          Iniciar período de mátriculas
-        </button>
-      </div>
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+      {% if category == "success" %}
+        <div class="success">{{ message }}</div>
+      {% endif %}
+    {% endfor %}
+
+    <form method="post" action="/admin/abrir-periodo">
+      <div class="register-wrapper" >
+        <div class="wrap">
+          <button type="submit">
+            Iniciar período de mátriculas
+          </button>
+       </div>
+    </form>
 
       <div class="wrap">
         <button type="button" onclick="solve()">

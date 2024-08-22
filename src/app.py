@@ -85,7 +85,8 @@ def criar_aluno():
 @app.post("/admin/abrir-periodo")
 def abrir_periodo():
     periodo.abrir(service)
-    return render_template('admin/menu.html')
+    flash("Período aberto com sucesso", "success")
+    return redirect(url_for('admin_menu'))
 
 @app.route("/aluno_menu", methods=['GET', 'POST'])
 def aluno_menu():
