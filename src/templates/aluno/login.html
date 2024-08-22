@@ -19,6 +19,12 @@
       </label>
       <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" required>
       
+      {% for category, message in get_flashed_messages(with_categories=true) %}
+        {% if category == "error" %}
+          <div class="error">{{ message }}</div>
+        {% endif %}
+      {% endfor %}
+
       <div class="wrap">
         <button type="submit">
           Entrar

@@ -26,11 +26,11 @@
         <i class="far fa-eye" id="togglePassword"></i>
       </div>
       
-      <div class="error">
-        {% if error %}
-        <span>{{ error }}</span>
-        {% endif %} 
-      </div>
+      {% for category, message in get_flashed_messages(with_categories=true) %}
+        {% if category == "error" %}
+          <div class="error">{{ message }}</div>
+        {% endif %}
+      {% endfor %}
       
       <div class="wrap">
         <button type="submit">
