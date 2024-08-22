@@ -116,11 +116,14 @@ def aluno_menu():
     remove_session()
     return app.redirect(app.url_for('index'))
   
+  max_students = periodo.getMaxStudents()
+  actual_students = periodo.getActualStudents()
+  
   # if (request.method == 'POST'):
       # cpf = session['cpf_aluno']
       # periodo.turmas[turma].inscrever_aluno(cpf, service)
 
-  return render_template('aluno/menu.html')
+  return render_template('aluno/menu.html', max_students=max_students, actual_students=actual_students)
 
 @app.post("/aluno/matricular/<turma>")
 def matricular(turma):

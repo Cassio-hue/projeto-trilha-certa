@@ -108,6 +108,20 @@ class Periodo():
 
     def getIsOpen(self):
         return self.is_open
+  
+    def getMaxStudents(self):
+        max_students = {}
+        for key in self.turmas:
+            max_students[key] = self.turmas[key].max
+
+        return max_students
+    
+    def getActualStudents(self):
+        actualStudents = {}
+        for key in self.turmas:
+            actualStudents[key] = len(self.turmas[key].alunos)
+
+        return actualStudents
 
 class Turma():
     def __init__(self, path):
