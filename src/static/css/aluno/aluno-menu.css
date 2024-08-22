@@ -31,3 +31,40 @@
   font-weight: bold;
   margin-bottom: 20px;
 }
+
+.card-wraper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+.card {
+  background-color: #57bb5a;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 5px;
+  width: 100%;
+  align-items: center;
+}
+
+.inner-card {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.snd-inner-card {
+  display: flex;
+  justify-content: space-around;
+}
+
+.trilha {
+  font-weight: bold;
+}
+
+.card-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}

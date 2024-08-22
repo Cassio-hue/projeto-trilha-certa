@@ -19,6 +19,12 @@ def admin_guard():
 
   return False
 
+def periodo_guard():
+  if periodo.getIsOpen():
+    return True
+
+  return False
+
 def remove_session():
   session.pop('role', None)
   session.pop('cpf_aluno', None)
@@ -28,6 +34,15 @@ def remove_session():
 def logout():
   remove_session()
   return app.redirect(app.url_for('index'))
+
+@app.route("/periodo-fechado")
+def periodo_fechado():
+  if (periodo_guard()):
+    if (auth_guard()):
+      return app.redirect(app.url_for('aluno_menu'))
+    return app.redirect(app.url_for('index'))
+  
+  return render_template('not-found/periodo-fechado.html')
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -40,6 +55,10 @@ def index():
     if service.logar_aluno(cpf):
       session['cpf_aluno'] = request.form['cpf']
       session['role'] = 'ALUNO'
+
+      if (not periodo_guard()):
+        return app.redirect(app.url_for('periodo_fechado'))
+      
       return app.redirect(app.url_for('aluno_menu'))
     flash("CPF inválido ou não cadastrado", "error")
 
@@ -90,7 +109,18 @@ def abrir_periodo():
 
 @app.route("/aluno_menu", methods=['GET', 'POST'])
 def aluno_menu():
-    return render_template('aluno/menu.html')
+  if not (auth_guard()):
+    return app.redirect(app.url_for('index'))
+  
+  if (not periodo_guard()):
+    remove_session()
+    return app.redirect(app.url_for('index'))
+  
+  # if (request.method == 'POST'):
+      # cpf = session['cpf_aluno']
+      # periodo.turmas[turma].inscrever_aluno(cpf, service)
+
+  return render_template('aluno/menu.html')
 
 @app.post("/aluno/matricular/<turma>")
 def matricular(turma):
