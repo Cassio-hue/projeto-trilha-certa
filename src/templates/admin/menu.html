@@ -10,6 +10,37 @@
 
 <body>
   <main>
+    <div class="modal">
+      <div class="modal-container">
+
+        <div class="modal-header">
+          <h3 style="color:white">Relatório das Matrículas</h3>
+          <button type="button" class="cancel" onClick={handleModal()}>⨉</button>
+        </div>
+
+        <div class="modal-content">
+          <table>
+            <tr>
+              <td> CPF </td>
+              <td> Turma </td>
+            </tr>
+            <tr>
+              <th> 111.111.111-11 </th>
+              <th> A </th>
+            </tr>
+            <tr>
+              <th>222.222.222-22</th>
+              <th> B </th>
+            </tr>
+              <th>333.333.333-33</th>
+              <th>-</th>
+          </table>
+  
+          Vagas Restantes: 0
+        </div>
+      </div>
+    </div>
+
     <h1>Trilha Certa</h1>
     <h3>Cadastre o CPF dos alunos</h3>
     <form method="post" action="/admin/criar-aluno">
@@ -44,7 +75,7 @@
     </form>
 
       <div class="wrap">
-        <button type="button" onclick="solve()">
+        <button type="button" onclick="handleModal()">
           Consultar matrículas
         </button>
       </div>
@@ -72,6 +103,17 @@
     })
   }
 
+  function handleModal() {
+      const modal = document.querySelector('.modal');
+      const actualStyle = modal.style.display;
+      if (actualStyle === 'block') {
+        modal.style.display = 'none';
+      } else {
+        modal.style.display = 'block';
+      }
+
+      // Colocar lock e limite de tempo para fechar
+    }
 
   </script>
 
