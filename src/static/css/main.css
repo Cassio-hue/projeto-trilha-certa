@@ -56,3 +56,12 @@ button {
   font-weight: bold;
   cursor: pointer;
 }
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+#logout {
+  background-color: #f13333;
+}

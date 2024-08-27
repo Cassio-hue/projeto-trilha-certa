@@ -73,3 +73,14 @@
 p {
   color: rgb(6, 50, 4); 
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+#logout {
+  width: 100px;
+}

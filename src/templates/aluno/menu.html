@@ -11,8 +11,17 @@
 
 <body>
   <main>
-    <h1>Trilha Certa</h1>
-    <h3>Matricule-se em alguma turma:</h3>
+    <div class="header">
+      <div>
+        <h1>Trilha Certa</h1>
+        <h3>Matricule-se em alguma turma:</h3>
+      </div>
+      <div>
+        <form action="/logout">
+          <button id="logout" type="submit">Sair</button>
+        </form>
+      </div>
+    </div>
     <form method="post">
 
       <!-- <select type="text" id="turmas" name="turmas" placeholder="Escolha uma turma" required>
