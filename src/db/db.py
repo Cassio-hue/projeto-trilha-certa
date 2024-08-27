@@ -71,8 +71,14 @@ class Service():
 
 class Periodo():
     def __init__(self, service: Service):
-        self.alunos_total = 0
+        estudantes = service.ler(service.estudantes)
+        estudantes = estudantes.split('\n')
+        estudantes.pop() # Remove o último elemento que é uma string vazia
+        self.alunos_total = len(estudantes)
+
         self.is_open = service.ler(service.periodo) == '1\n'
+
+
         self.turmas = {
             'A': Turma('turma_a.txt', service),
             'B': Turma('turma_b.txt', service),
@@ -83,6 +89,25 @@ class Periodo():
             'G': Turma('turma_g.txt', service),
             'H': Turma('turma_h.txt', service)
         }
+
+        # Calcula a quantidade de alunos máxima por turma logo que as classes são criadas
+
+        if (self.alunos_total % 8 == 0):
+            for turma in self.turmas:
+                self.turmas[turma].max = self.alunos_total // 8
+        else:
+            min = self.alunos_total // 8
+
+            for turma in self.turmas:
+                self.turmas[turma].max = min
+
+            resto = self.alunos_total % 8
+
+            for turma in self.turmas:
+                if resto == 0:
+                    break
+                self.turmas[turma].max += 1
+                resto -= 1
 
     def abrir(self, service: Service):
         estudantes = service.ler(service.estudantes)
@@ -130,9 +155,30 @@ class Periodo():
         for key in self.turmas:
             actualStudents[key] = len(self.turmas[key].alunos)
 
-        print(actualStudents)
-
         return actualStudents
+    
+    def countStudentsByClass(self, service: Service):
+        estudantes = service.ler(service.estudantes)
+        estudantes = estudantes.split('\n')
+        estudantes.pop() # Remove o último elemento que é uma string vazia
+        self.alunos_total = len(estudantes)
+
+        if (self.alunos_total % 8 == 0):
+            for turma in self.turmas:
+                self.turmas[turma].max = self.alunos_total // 8
+        else:
+            min = self.alunos_total // 8
+
+            for turma in self.turmas:
+                self.turmas[turma].max = min
+
+            resto = self.alunos_total % 8
+
+            for turma in self.turmas:
+                if resto == 0:
+                    break
+                self.turmas[turma].max += 1
+                resto -= 1
 
 class Turma():
     def __init__(self, path, service: Service):
@@ -158,7 +204,5 @@ class Turma():
         
         service.escrever(self.path, cpf + '\n')
         self.alunos.append(cpf)
-
-        print(self.alunos)
 
 
