@@ -5,6 +5,7 @@ class Service():
     def __init__(self):
         self.admin = 'admin.txt'
         self.estudantes = 'estudantes.txt'
+        self.periodo = 'periodo.txt'
         self.path = os.path.join(os.getcwd(), 'src', 'db')
 
         self.total_max_cpfs = 240
@@ -18,6 +19,11 @@ class Service():
 
     def escrever(self, arquivo, data):
         arquivo = open(os.path.join(self.path, arquivo), "a")
+        arquivo.write(data)
+        arquivo.close()
+
+    def sobrescrever(self, data):
+        arquivo = open(os.path.join(self.path, self.periodo), "w")
         arquivo.write(data)
         arquivo.close()
 
@@ -64,18 +70,18 @@ class Service():
     
 
 class Periodo():
-    def __init__(self):
+    def __init__(self, service: Service):
         self.alunos_total = 0
-        self.is_open = False
+        self.is_open = service.ler(service.periodo) == '1\n'
         self.turmas = {
-            'A': Turma('turma_a.txt'),
-            'B': Turma('turma_b.txt'),
-            'C': Turma('turma_c.txt'),
-            'D': Turma('turma_d.txt'),
-            'E': Turma('turma_e.txt'),
-            'F': Turma('turma_f.txt'),
-            'G': Turma('turma_g.txt'),
-            'H': Turma('turma_h.txt')
+            'A': Turma('turma_a.txt', service),
+            'B': Turma('turma_b.txt', service),
+            'C': Turma('turma_c.txt', service),
+            'D': Turma('turma_d.txt', service),
+            'E': Turma('turma_e.txt', service),
+            'F': Turma('turma_f.txt', service),
+            'G': Turma('turma_g.txt', service),
+            'H': Turma('turma_h.txt', service)
         }
 
     def abrir(self, service: Service):
@@ -101,10 +107,13 @@ class Periodo():
                 self.turmas[turma].max += 1
                 resto -= 1
 
-        self.is_open = True
 
-    def fechar(self):
+        self.is_open = True
+        service.sobrescrever('1\n')
+
+    def fechar(self, service: Service):
         self.is_open = False
+        service.sobrescrever('0\n')
 
     def getIsOpen(self):
         return self.is_open
@@ -121,12 +130,20 @@ class Periodo():
         for key in self.turmas:
             actualStudents[key] = len(self.turmas[key].alunos)
 
+        print(actualStudents)
+
         return actualStudents
 
 class Turma():
-    def __init__(self, path):
+    def __init__(self, path, service: Service):
+        alunos = service.ler(path).split('\n')
+        alunos.pop()
+
+        if (alunos):
+            self.alunos = alunos
+        else:
+            self.alunos = []
         self.path = path
-        self.alunos = []
         self.max = None
 
     # Inscreve aluno em uma turma específica

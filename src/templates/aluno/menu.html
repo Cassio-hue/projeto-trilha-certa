@@ -27,20 +27,20 @@
 
       <div class="card-columns">
         <div class="card-wraper">
-          <div class="card">
-            <div class="inner-card">
-              <p>Turma A</p>
-              <p>Matutino</p>
-            </div>
-            <div class="snd-inner-card">
-              <p class="trilha">ENEGRE-SER</p>   
-            </div>
-            <div class="snd-inner-card">
-              <p>Vagas: {{actual_students['A']}}/{{max_students['A']}}</p>
-            </div>
+          <div class="card" onclick="handleModal('A')">
+              <div class="inner-card">
+                <p>Turma A</p>
+                <p>Matutino</p>
+              </div>
+              <div class="snd-inner-card">
+                <p class="trilha">ENEGRE-SER</p>   
+              </div>
+              <div class="snd-inner-card">
+                <p>Vagas: {{actual_students['A']}}/{{max_students['A']}}</p>
+              </div>
           </div>
 
-          <div class="card">
+          <div class="card" onclick="handleModal('B')">
             <div class="inner-card">
               <p>Turma B</p>
               <p>Matutino</p>
@@ -53,7 +53,7 @@
             </div>
           </div>
 
-          <div class="card">
+          <div class="card" onclick="handleModal('C')">
             <div class="inner-card">
               <p>Turma C</p>
               <p>Matutino</p>
@@ -66,7 +66,7 @@
             </div>
           </div>
 
-          <div class="card">
+          <div class="card" onclick="handleModal('D')">
             <div class="inner-card">
               <p>Turma D</p>
               <p>Matutino</p>
@@ -81,10 +81,10 @@
         </div>
 
         <div class="card-wraper">
-          <div class="card">
+          <div class="card" onclick="handleModal('E')">
             <div class="inner-card">
               <p>Turma E</p>
-              <p>Matutino</p>
+              <p>Vespertino</p>
             </div>
             <div class="snd-inner-card">
               <p class="trilha">ENEGRE-SER</p>   
@@ -94,10 +94,10 @@
             </div>
           </div>
 
-          <div class="card">
+          <div class="card" onclick="handleModal('F')">
             <div class="inner-card">
               <p>Turma F</p>
-              <p>Matutino</p>
+              <p>Vespertino</p>
             </div>
             <div class="snd-inner-card">
               <p class="trilha">DINHEIRO NA MÃO É VENDAVAL</p>   
@@ -107,10 +107,10 @@
             </div>
           </div>
 
-          <div class="card">
+          <div class="card" onclick="handleModal('G')">
             <div class="inner-card">
               <p>Turma G</p>
-              <p>Matutino</p>
+              <p>Vespertino</p>
             </div>
             <div class="snd-inner-card">
               <p class="trilha">ADMIRÁVEL MUNDO NOVO</p>   
@@ -120,10 +120,10 @@
             </div>
           </div>
 
-          <div class="card">
+          <div class="card" onclick="handleModal('H')">
             <div class="inner-card">
               <p>Turma H</p>
-              <p>Matutino</p>
+              <p>Vespertino</p>
             </div>
             <div class="snd-inner-card">
               <p class="trilha">AGROECOLOGIA</p>   
@@ -135,17 +135,11 @@
         </div>
       </div>
 
-      <!-- <div class="wrap">
-        <button type="button" onclick={handleModal()}>
-          Concluir Matrícula
-        </button>
-      </div> -->
-
       <div class="modal">
         <div class="modal-content">
           <p id="title"></p>   
-          <button type="button" class="cancel" onclick={handleModal()}>Cancelar</button>
-          <button type="button" onclick={handleSave()}>Sim</button>
+          <button type="button" id="cancel" onclick={handleModal()}>Cancelar</button>
+          <button type="button" onclick={handleSave()}>Confirmar</button>
         </div>
       </div>
 
@@ -157,14 +151,15 @@
   <script>
 
     function handleSave() {
-      option = document.getElementById('turmas')
+      const modal = document.querySelector('.modal');
+      const turma = modal.getAttribute('id')
       form = document.querySelector('form')
-      form.action = `/aluno/matricular/${option.value}`
+      form.action = `/aluno/matricular/${turma}`
       form.submit()
       handleModal();
     }
 
-    function handleModal() {
+    function handleModal(turma) {
       const modal = document.querySelector('.modal');
       const actualStyle = modal.style.display;
       if (actualStyle === 'block') {
@@ -172,12 +167,11 @@
       } else {
         modal.style.display = 'block';
       }
-
+      
       // Colocar lock e limite de tempo para fechar
-
-      option = document.getElementById('turmas')
+      modal.setAttribute('id', turma)
       title = document.getElementById('title')
-      option? title.innerHTML = `Tem certeza que deseja se matricular na turma ${option.value}?` : title.innerHTML = `Tem certeza que deseja se matricular na turma A?`
+     title.innerHTML = `Tem certeza que deseja se matricular na turma ${turma}?`
     }
 
   </script>

@@ -21,9 +21,8 @@
   align-items: center;
 }
 
-.cancel {
+#cancel {
   background-color: #f13333;
-
 }
 
 #title {
@@ -46,6 +45,8 @@
   border-radius: 5px;
   width: 100%;
   align-items: center;
+  height: 100%;
+  cursor: pointer;
 }
 
 .inner-card {
@@ -67,4 +68,8 @@
   display: flex;
   flex-direction: row;
   gap: 20px;
+}
+
+p {
+  color: rgb(6, 50, 4); 
 }

@@ -5,7 +5,7 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 service = Service()
-periodo = Periodo()
+periodo = Periodo(service=service)
 
 def auth_guard():
   if 'role' not in session:
@@ -127,14 +127,17 @@ def aluno_menu():
 
 @app.post("/aluno/matricular/<turma>")
 def matricular(turma):
-    if (periodo.getIsOpen()):
-      return render_template('aluno/menu.html ')
+    if (periodo.getIsOpen() and not turma):
+        max_students = periodo.getMaxStudents()
+        actual_students = periodo.getActualStudents()
+        return render_template('aluno/menu.html', max_students=max_students, actual_students=actual_students)
 
     cpf = session['cpf_aluno']
     periodo.turmas[turma].inscrever_aluno(cpf, service)
 
-    return render_template('aluno/menu.html')
+    remove_session()
 
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=5000, debug=True)
