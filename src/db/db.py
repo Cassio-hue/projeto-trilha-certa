@@ -180,6 +180,13 @@ class Periodo():
                 self.turmas[turma].max += 1
                 resto -= 1
 
+    def checar_inscricao(self, cpf):
+        for turma in self.turmas:
+            if cpf in self.turmas[turma].alunos:
+                return turma
+        
+        return False
+
 class Turma():
     def __init__(self, path, service: Service):
         alunos = service.ler(path).split('\n')

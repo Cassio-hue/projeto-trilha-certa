@@ -25,6 +25,10 @@ def periodo_guard():
 
   return False
 
+def check_inscription(cpf):
+  cpf = cpf.replace('.', '').replace('-', '')
+  return periodo.checar_inscricao(cpf)
+
 def remove_session():
   session.pop('role', None)
   session.pop('cpf_aluno', None)
@@ -44,6 +48,10 @@ def periodo_fechado():
   
   return render_template('not-found/periodo-fechado.html')
 
+@app.route("/inscricao-realizada/<turma>")
+def inscricao_realizada(turma):
+  return render_template('inscricao-realizada/inscricao-realizada.html', turma=turma)
+
 @app.route("/", methods=['GET', 'POST'])
 def index():
   if (auth_guard()):
@@ -58,6 +66,10 @@ def index():
 
       if (not periodo_guard()):
         return app.redirect(app.url_for('periodo_fechado'))
+      
+      res = check_inscription(cpf)
+      if (res):
+        return app.redirect(app.url_for('inscricao_realizada', turma=res))
       
       return app.redirect(app.url_for('aluno_menu'))
     flash("CPF inválido ou não cadastrado", "error")
