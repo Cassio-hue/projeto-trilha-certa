@@ -75,9 +75,11 @@
     </form>
 
       <div class="wrap">
-        <button type="button" onclick="handleModal()">
-          Consultar matrículas
-        </button>
+        <form action="/admin/relatorio">
+          <button type="submit">
+            Consultar matrículas
+          </button>
+        </form>
       </div>
     </div>
     
@@ -108,18 +110,6 @@
       },
     })
   }
-
-  function handleModal() {
-      const modal = document.querySelector('.modal');
-      const actualStyle = modal.style.display;
-      if (actualStyle === 'block') {
-        modal.style.display = 'none';
-      } else {
-        modal.style.display = 'block';
-      }
-
-      // Colocar lock e limite de tempo para fechar
-    }
 
   </script>
 

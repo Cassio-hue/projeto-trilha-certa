@@ -1,4 +1,5 @@
 import os
+import json
 from utils.validade_cpf import validar_cpf
 
 class Service():
@@ -185,7 +186,16 @@ class Periodo():
             if cpf in self.turmas[turma].alunos:
                 return turma
         
-        return False
+        return 
+    
+    def estudantesPorTurma(self):
+        students = {}
+        for turma in self.turmas:
+            students[turma] = self.turmas[turma].alunos
+
+        json_data = json.dumps(students)
+
+        return json_data
 
 class Turma():
     def __init__(self, path, service: Service):

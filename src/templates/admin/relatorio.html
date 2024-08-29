@@ -1,0 +1,94 @@
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <title>HTML Login Form</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin-relatorio.css') }}">
+</head>
+
+<body>
+  <main>
+    <div class="header">
+      <div>
+        <h1>Trilha Certa</h1>
+        <h3>Relatório de matrículas</h3>
+      </div>
+      <div>
+        <form action="/logout">
+          <button id="logout" type="submit">Sair</button>
+        </form>
+      </div>
+    </div>
+
+    <select id="selectTurma" onchange="handleChange()" class="{{estudantes}}">
+      <option value="" disabled selected>Selecione a turma</option>
+      <option value="A">Turma A</option>
+      <option value="B">Turma B</option>
+      <option value="C">Turma C</option>
+      <option value="D">Turma D</option>
+      <option value="E">Turma E</option>
+      <option value="F">Turma F</option>
+      <option value="G">Turma G</option>
+      <option value="H">Turma H</option>
+    </select>
+    
+    <div class="content">
+      <table class="table" id="A">
+        <tr>
+          <th>CPF</th>
+          <th>Turma</th>
+          <th>Trilha</th>
+        </tr>
+        <tbody id="tbody">
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <form action="/admin/menu">
+        <button id="back" type="submit">
+          Voltar
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    function handleChange() {
+      const select = document.getElementById('selectTurma');
+      const estudantesJson = {{estudantes | tojson}};
+      const newEstudantes = JSON.parse(estudantesJson);
+
+      const turma = document.getElementById('selectTurma').value;
+      const table = document.querySelector('.table');
+
+      const tbody = document.getElementById('tbody');
+      tbody.innerHTML = '';
+      for (const matricula of newEstudantes[turma]) {
+        const tr = document.createElement('tr');
+        const td1 = document.createElement('td');
+        const td2 = document.createElement('td');
+        const td3 = document.createElement('td');
+        td1.textContent = matricula;
+        td2.textContent = turma;
+        if (turma === 'A' || turma == 'E') {
+          td3.textContent = 'ENEGRE-SER';
+        } else if (turma === 'B' || turma == 'F') {
+          td3.textContent = 'DINHEIRO NA MÃO É VENDAVAL';
+        } else if (turma === 'C' || turma == 'G') {
+          td3.textContent = 'ADMIRÁVEL MUNDO NOVO';
+        } else if (turma === 'D' || turma == 'H') {
+          td3.textContent = 'AGROECOLOGIA';
+        }
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tbody.appendChild(tr);
+      }
+
+    }
+  </script>
+
+</body>
+
+</html>

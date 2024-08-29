@@ -151,5 +151,11 @@ def matricular(turma):
 
     return redirect(url_for('index'))
 
+@app.route("/admin/relatorio", methods=['GET', 'POST'])
+def relatorio():
+    estudantes = periodo.estudantesPorTurma()
+
+    return render_template('admin/relatorio.html', estudantes=estudantes)
+
 if __name__ == "__main__":
   app.run(host="0.0.0.0", port=5000, debug=True)

@@ -1,0 +1,48 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+}
+
+#logout {
+  width: 100px;
+}
+
+.content {
+  width: 30rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+table th {
+  background-color: #4CAF50;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+table tr:nth-child(even) {
+  background-color: #8af38d;
+}
+
+#back {
+  width: 100px;
+  top: 10px;
+  left: 10px;
+  background-color: #4CAF50  ;
+}
