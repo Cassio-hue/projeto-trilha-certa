@@ -137,7 +137,7 @@ def aluno_menu():
 
   return render_template('aluno/menu.html', max_students=max_students, actual_students=actual_students)
 
-@app.post("/aluno/matricular/<turma>")
+@app.route("/aluno/matricular/<turma>", methods=['GET', 'POST'])
 def matricular(turma):
     if (periodo.getIsOpen() and not turma):
         max_students = periodo.getMaxStudents()
