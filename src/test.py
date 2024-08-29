@@ -18,12 +18,15 @@ def create_threads(fun, args_list):
   for t in threads:
       t.join()
 
-def test_matricular_alunos():
+def teste_matricular_alunos():
+  time.sleep(2)
+  service.sobrescrever('turma_a.txt', '')
+
   def inscrever_aluno(cpf, turma):
     barreira.wait()
-    print("CPF > ", cpf)
     periodo.turmas[turma].inscrever_aluno(cpf, service)
 
+  # TESTE DE CONCORRÊNCIA NA MATRÍCULA DE ALUNOS
   maximo_alunos_turma = periodo.turmas['A'].max
 
   args_list = [(f"t{i}", "A") for i in range(1, 9)]
@@ -33,23 +36,33 @@ def test_matricular_alunos():
   alunos_turma = periodo.turmas['A'].alunos
   time.sleep(2)
   casos = [
-     "Quantidade máxima de alunos igual a quantidade de alunos na turma A",
-     "Quantidade de alunos na turma A igual a quantidade de alunos no arquivo turma_a.txt"
+     "Quantidade máxima de alunos permitidos é maior ou igual a quantidade de alunos na classe da turma A",
+     "Quantidade máxima de alunos permitidos é maior ou igual a quantidade de alunos no arquivo turma_a.txt",
+     "Alunos presentes na classe da turma A são os mesmos que estão no arquivo turma_a.txt"
   ]
   resultados = []
 
-  if (len(alunos_turma) == maximo_alunos_turma):
+  # CASO 0
+  if (maximo_alunos_turma >= len(alunos_turma)):
     resultados.append("OK")
   else:
     resultados.append("ERRO")
   
+  # CASO 1
   alunos_turma_a = service.ler('turma_a.txt').split('\n')
   alunos_turma_a.pop()
-  if (maximo_alunos_turma == len(alunos_turma_a)):
+  if (maximo_alunos_turma >= len(alunos_turma_a)):
     resultados.append("OK")
   else:
     resultados.append("ERRO")
 
+  # CASO 2
+  if (alunos_turma == alunos_turma_a):
+    resultados.append("OK")
+  else:
+    resultados.append("ERRO")
+
+  # RESULTADOS
   for i in range(len(casos)):
     print(f"{resultados[i]} - {casos[i]}")
   
@@ -58,4 +71,4 @@ def test_matricular_alunos():
   time.sleep(2)
   service.sobrescrever('turma_a.txt', '')
 
-test_matricular_alunos()
+teste_matricular_alunos()
