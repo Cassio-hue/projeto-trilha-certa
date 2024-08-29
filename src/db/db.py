@@ -138,11 +138,11 @@ class Periodo():
 
 
         self.is_open = True
-        service.sobrescrever('1\n')
+        service.sobrescrever(service.periodo, '1\n')
 
     def fechar(self, service: Service):
         self.is_open = False
-        service.sobrescrever('0\n')
+        service.sobrescrever(service.periodo, '0\n')
 
     def getIsOpen(self):
         return self.is_open

@@ -10,7 +10,7 @@
 
 <body>
   <main>
-    <div class="modal">
+    <!-- <div class="modal">
       <div class="modal-container">
 
         <div class="modal-header">
@@ -39,7 +39,7 @@
           Vagas Restantes: 0
         </div>
       </div>
-    </div>
+    </div> -->
 
     <h1>Trilha Certa</h1>
     <h3>Cadastre o CPF dos alunos</h3>
@@ -59,27 +59,41 @@
       </div>
     </form>
 
-    {% for category, message in get_flashed_messages(with_categories=true) %}
-      {% if category == "success" %}
-        <div class="success">{{ message }}</div>
-      {% endif %}
-    {% endfor %}
+    <div id="message-wrapper">
+      {% for category, message in get_flashed_messages(with_categories=true) %}
+        {% if category == "success" %}
+          <div class="success">{{ message }}</div>
+        {% endif %}
+      {% endfor %}
 
-    <form method="post" action="/admin/abrir-periodo">
-      <div class="register-wrapper" >
-        <div class="wrap">
-          <button type="submit">
-            Iniciar período de mátriculas
-          </button>
-       </div>
-    </form>
-
-      <div class="wrap">
-        <form action="/admin/relatorio">
-          <button type="submit">
-            Consultar matrículas
-          </button>
+      <div class="register-wrapper">
+      {% if periodo_aberto %}
+        <form method="post" action="/admin/fechar-periodo">
+          <div class="wrap">
+            <button type="submit">
+              Encerrar período de mátriculas
+            </button>
+          </div>
         </form>
+      {% endif %}
+
+      {% if not periodo_aberto %}
+        <form method="post" action="/admin/abrir-periodo">
+          <div class="wrap">
+            <button type="submit">
+              Iniciar período de mátriculas
+            </button>
+          </div>
+        </form>
+      {% endif %}
+
+        <div class="wrap">
+          <form action="/admin/relatorio">
+            <button type="submit">
+              Consultar matrículas
+            </button>
+          </form>
+        </div>
       </div>
     </div>
     

@@ -103,7 +103,9 @@ def admin_menu():
     return app.redirect(app.url_for('index'))
   
   total_alunos, total_max_alunos = service.total_alunos()
-  return render_template('admin/menu.html', total_alunos=total_alunos, total_max_alunos=total_max_alunos)
+  periodo_aberto = periodo.getIsOpen()
+
+  return render_template('admin/menu.html', total_alunos=total_alunos, total_max_alunos=total_max_alunos, periodo_aberto=periodo_aberto)
 
 @app.post("/admin/criar-aluno")
 def criar_aluno():
@@ -119,6 +121,12 @@ def abrir_periodo():
     flash("Período aberto com sucesso", "success")
     return redirect(url_for('admin_menu'))
 
+@app.post("/admin/fechar-periodo")
+def fechar_periodo():
+    periodo.fechar(service)
+    flash("Período fechado com sucesso", "success")
+    return redirect(url_for('admin_menu'))
+
 @app.route("/aluno_menu", methods=['GET', 'POST'])
 def aluno_menu():
   if not (auth_guard()):
@@ -130,10 +138,6 @@ def aluno_menu():
   
   max_students = periodo.getMaxStudents()
   actual_students = periodo.getActualStudents()
-  
-  # if (request.method == 'POST'):
-      # cpf = session['cpf_aluno']
-      # periodo.turmas[turma].inscrever_aluno(cpf, service)
 
   return render_template('aluno/menu.html', max_students=max_students, actual_students=actual_students)
 
