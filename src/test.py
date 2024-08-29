@@ -2,9 +2,6 @@ import time
 import threading
 from db.db import Service, Periodo
 
-NUM_THREADS = 8
-barreira = threading.Barrier(NUM_THREADS)
-
 service = Service()
 periodo = Periodo(service=service)
 
@@ -19,6 +16,9 @@ def create_threads(fun, args_list):
       t.join()
 
 def teste_matricular_alunos():
+  NUM_THREADS = 8
+  barreira = threading.Barrier(NUM_THREADS)
+
   time.sleep(2)
   service.sobrescrever('turma_a.txt', '')
 
@@ -71,4 +71,50 @@ def teste_matricular_alunos():
   time.sleep(2)
   service.sobrescrever('turma_a.txt', '')
 
-teste_matricular_alunos()
+
+def teste_ler_matricular_aluno():
+  NUM_THREADS = 4
+  barreira = threading.Barrier(NUM_THREADS)
+
+  time.sleep(2)
+  service.sobrescrever('turma_a.txt', '')
+
+  def inscrever_aluno(t, turma):
+    barreira.wait()
+    periodo.turmas[turma].inscrever_aluno(t, service)
+    print(f"{t} - ESCRITA: ", periodo.turmas[turma].alunos)
+  
+  def ler_matricular_aluno(t, turma):
+    barreira.wait()
+    print(f"{t} - LEITURA: ", periodo.turmas[turma].alunos)
+
+  # TESTE DE CONCORRÊNCIA NA MATRÍCULA DE ALUNOS
+  maximo_alunos_turma = periodo.turmas['A'].max
+
+  args_list_esc = [(f"t{i}", "A") for i in range(1, 5)]
+  args_list_lei = [(f"t{i}", "A") for i in range(5, 9)]
+
+  create_threads(ler_matricular_aluno, args_list_lei)
+  create_threads(inscrever_aluno, args_list_esc)
+  print()
+  print("LEITURA DEPOIS DA ESCRITA: ")
+  time.sleep(2)
+  create_threads(ler_matricular_aluno, args_list_lei)
+
+  # print("TESTANDO CONCORRÊNCIA NA MATRÍCULA DE ALUNOS")
+  # alunos_turma = periodo.turmas['A'].alunos
+  # time.sleep(2)
+  # casos = [
+     
+  # ]
+  # resultados = []
+  
+
+print()
+# teste_matricular_alunos()
+print()
+time.sleep(2)
+print()
+teste_ler_matricular_aluno()
+print()
+
