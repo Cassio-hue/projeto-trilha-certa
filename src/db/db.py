@@ -1,6 +1,9 @@
+import threading
 import os
 import json
 from utils.validade_cpf import validar_cpf
+
+file_lock = threading.Lock()
 
 class Service():
     def __init__(self):
@@ -23,8 +26,8 @@ class Service():
         arquivo.write(data)
         arquivo.close()
 
-    def sobrescrever(self, data):
-        arquivo = open(os.path.join(self.path, self.periodo), "w")
+    def sobrescrever(self, arquivo, data):
+        arquivo = open(os.path.join(self.path, arquivo), "w")
         arquivo.write(data)
         arquivo.close()
 
@@ -211,14 +214,15 @@ class Turma():
 
     # Inscreve aluno em uma turma específica
     def inscrever_aluno(self, cpf, service: Service):
+      with file_lock:
         cpf = cpf.replace('.', '').replace('-', '')
 
         if cpf in self.alunos:
-            return False
-        
+          return False
+      
         if len(self.alunos) == self.max:
-            return False
-        
+          return False
+      
         service.escrever(self.path, cpf + '\n')
         self.alunos.append(cpf)
 
