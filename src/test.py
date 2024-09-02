@@ -1,6 +1,9 @@
+import random
 import time
 import threading
 from db.db import Service, Periodo
+
+array_cpfs = ["66073557574", "74170732120", "53442778735", "48092251436", "68876028650", "63389475885", "56391926662", "29787687705", "65990504250", "28164671207", "53649177978", "65740526612", "71383358907", "47846944630", "74458525816", "34551415367", "01133858546", "36843387292", "44347913702", "17984853622"]
 
 service = Service()
 periodo = Periodo(service=service)
@@ -19,7 +22,7 @@ def teste_matricular_alunos():
   NUM_THREADS = 8
   barreira = threading.Barrier(NUM_THREADS)
 
-  time.sleep(2)
+  time.sleep(1)
   service.sobrescrever('turma_a.txt', '')
 
   def inscrever_aluno(cpf, turma):
@@ -66,55 +69,61 @@ def teste_matricular_alunos():
   for i in range(len(casos)):
     print(f"{resultados[i]} - {casos[i]}")
   
-  print()
-  print("LIMPAR TURMA A...")
-  time.sleep(2)
+  time.sleep(1)
   service.sobrescrever('turma_a.txt', '')
 
 
-def teste_ler_matricular_aluno():
-  NUM_THREADS = 4
+def teste_inscrever_alunos():
+  NUM_THREADS = 8
   barreira = threading.Barrier(NUM_THREADS)
 
-  time.sleep(2)
-  service.sobrescrever('turma_a.txt', '')
+  time.sleep(1)
+  service.sobrescrever('estudantes.txt', '')
 
-  def inscrever_aluno(t, turma):
+  def criar_aluno(thread, cpf):
     barreira.wait()
-    periodo.turmas[turma].inscrever_aluno(t, service)
-    print(f"{t} - ESCRITA: ", periodo.turmas[turma].alunos)
+    service.criar_aluno(cpf)
+
   
-  def ler_matricular_aluno(t, turma):
-    barreira.wait()
-    print(f"{t} - LEITURA: ", periodo.turmas[turma].alunos)
+  random_cpfs = random.sample(array_cpfs, 8)
 
-  # TESTE DE CONCORRÊNCIA NA MATRÍCULA DE ALUNOS
-  maximo_alunos_turma = periodo.turmas['A'].max
+  args_list = [(f"t{i} - {random_cpfs[i-1]}", random_cpfs[i-1]) for i in range(1, 9)]
+  create_threads(criar_aluno, args_list)
 
-  args_list_esc = [(f"t{i}", "A") for i in range(1, 5)]
-  args_list_lei = [(f"t{i}", "A") for i in range(5, 9)]
+  print("TESTANDO INSCRIÇÃO DE ALUNOS NO SISTEMA\n")
+  casos = [
+     "Alunos presentes no arquivo estudantes.txt são os mesmos que estão no array de cpfs",
+     "Quantidade de alunos presentes no arquivo estudantes.txt é igual a o tamanho do array de cpfs",
+  ]
 
-  create_threads(ler_matricular_aluno, args_list_lei)
-  create_threads(inscrever_aluno, args_list_esc)
-  print()
-  print("LEITURA DEPOIS DA ESCRITA: ")
-  time.sleep(2)
-  create_threads(ler_matricular_aluno, args_list_lei)
+  alunos = service.ler('estudantes.txt').split('\n')
+  alunos.pop()
 
-  # print("TESTANDO CONCORRÊNCIA NA MATRÍCULA DE ALUNOS")
-  # alunos_turma = periodo.turmas['A'].alunos
-  # time.sleep(2)
-  # casos = [
-     
-  # ]
-  # resultados = []
-  
+  # CASO 0
+  def verifica_cpfs():
+    for cpf in alunos:
+      if cpf not in random_cpfs:
+        return False
+    return True
+
+  if (verifica_cpfs()):
+    print("OK - " + casos[0])
+  else:
+    print("ERRO - " + casos[0])
+
+
+  # CASO 1
+  if (len(alunos) == len(random_cpfs)):
+    print("OK - " + casos[1])
+  else:
+    print("ERRO - " + casos[1])
+
 
 print()
-# teste_matricular_alunos()
+teste_matricular_alunos()
 print()
-time.sleep(2)
+teste_inscrever_alunos()
 print()
-teste_ler_matricular_aluno()
-print()
+
+
 
