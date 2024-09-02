@@ -84,3 +84,14 @@ p {
 #logout {
   width: 100px;
 }
+
+.atention {
+  background-color: #fef65bbb;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+  font-weight: bold;
+}

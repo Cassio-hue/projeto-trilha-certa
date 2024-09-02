@@ -17,23 +17,16 @@
         <h3>Matricule-se em alguma turma:</h3>
       </div>
       <div>
-        <form action="/logout">
+        <form action="/logout" id="logout-form">
           <button id="logout" type="submit">Sair</button>
         </form>
       </div>
     </div>
     <form method="post">
-
-      <!-- <select type="text" id="turmas" name="turmas" placeholder="Escolha uma turma" required>
-        <option value="A">Turma A</option>
-        <option value="B">Turma B</option>
-        <option value="C">Turma C</option>
-        <option value="D">Turma D</option>
-        <option value="F">Turma F</option>
-        <option value="G">Turma G</option>
-        <option value="H">Turma H</option>
-      </select> -->
-
+      
+      <div class="atention">
+        <p>Atenção: ao selecionar uma turma você terá 30 segundos para se matricular.</p>
+      </div>
       <div class="card-columns">
         <div class="card-wraper">
           <div class="card" onclick="handleModal('A')">
@@ -147,6 +140,7 @@
       <div class="modal">
         <div class="modal-content">
           <p id="title"></p>   
+          <p id="timer">30</p>
           <button type="button" id="cancel" onclick={handleModal()}>Cancelar</button>
           <button type="button" onclick={handleSave()}>Confirmar</button>
         </div>
@@ -158,6 +152,8 @@
   </main>
 
   <script>
+
+    let myInterval = NaN;
 
     function handleSave() {
       const modal = document.querySelector('.modal');
@@ -173,15 +169,39 @@
       const actualStyle = modal.style.display;
       if (actualStyle === 'block') {
         modal.style.display = 'none';
+        myStop();
       } else {
         modal.style.display = 'block';
+        myStart();
       }
       
-      // Colocar lock e limite de tempo para fechar
       modal.setAttribute('id', turma)
       title = document.getElementById('title')
-     title.innerHTML = `Tem certeza que deseja se matricular na turma ${turma}?`
+      title.innerHTML = `Tem certeza que deseja se matricular na turma ${turma}?`
+}
+
+  function myTimer() {
+    const timerElement = document.getElementById("timer");
+    let timeLeft = parseInt(timerElement.textContent);
+    timeLeft--;
+    timerElement.textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(myInterval);
+      form = document.getElementById('logout-form')
+      form.submit()
     }
+  }
+
+  function myStop() {
+    clearInterval(myInterval);
+    const timerElement = document.getElementById("timer");
+    timerElement.textContent = 30;
+  }
+
+  function myStart() {
+    myInterval = setInterval(myTimer, 1000);
+  }
 
   </script>
 
