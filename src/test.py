@@ -35,7 +35,7 @@ def teste_matricular_alunos():
   args_list = [(f"t{i}", "A") for i in range(1, 9)]
   create_threads(inscrever_aluno, args_list)
 
-  print("TESTANDO CONCORRÊNCIA NA MATRÍCULA DE ALUNOS")
+  print("TESTANDO CONCORRÊNCIA NA MATRÍCULA DE ALUNOS\n")
   alunos_turma = periodo.turmas['A'].alunos
   time.sleep(2)
   casos = [
