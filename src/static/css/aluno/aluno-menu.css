@@ -95,3 +95,8 @@ p {
   margin-bottom: 5px;
   font-weight: bold;
 }
+
+#full {
+  background-color: #ec5555;
+  cursor: auto;
+}

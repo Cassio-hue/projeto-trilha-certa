@@ -29,7 +29,11 @@
       </div>
       <div class="card-columns">
         <div class="card-wraper">
-          <div class="card" onclick="handleModal('A')">
+          {% if actual_students['A'] == max_students['A'] %}
+            <div class="card" id="full">
+          {% else %}
+            <div class="card" onclick="handleModal('A')">
+          {% endif %}
               <div class="inner-card">
                 <p>Turma A</p>
                 <p>Matutino</p>
@@ -42,7 +46,11 @@
               </div>
           </div>
 
-          <div class="card" onclick="handleModal('B')">
+          {% if actual_students['B'] == max_students['B'] %}
+            <div class="card" id="full">
+          {% else %}
+            <div class="card" onclick="handleModal('B')">
+          {% endif %}
             <div class="inner-card">
               <p>Turma B</p>
               <p>Matutino</p>
@@ -55,7 +63,11 @@
             </div>
           </div>
 
-          <div class="card" onclick="handleModal('C')">
+          {% if actual_students['C'] == max_students['C'] %}
+            <div class="card" id="full">
+          {% else %}
+            <div class="card" onclick="handleModal('C')">
+          {% endif %}
             <div class="inner-card">
               <p>Turma C</p>
               <p>Matutino</p>
@@ -68,7 +80,11 @@
             </div>
           </div>
 
-          <div class="card" onclick="handleModal('D')">
+          {% if actual_students['D'] == max_students['D'] %}
+            <div class="card" id="full">
+          {% else %}
+            <div class="card" onclick="handleModal('D')">
+          {% endif %}
             <div class="inner-card">
               <p>Turma D</p>
               <p>Matutino</p>
@@ -83,7 +99,11 @@
         </div>
 
         <div class="card-wraper">
-          <div class="card" onclick="handleModal('E')">
+          {% if actual_students['E'] == max_students['E'] %}
+            <div class="card" id="full">
+          {% else %}
+            <div class="card" onclick="handleModal('E')">
+          {% endif %}
             <div class="inner-card">
               <p>Turma E</p>
               <p>Vespertino</p>
@@ -96,7 +116,11 @@
             </div>
           </div>
 
-          <div class="card" onclick="handleModal('F')">
+          {% if actual_students['F'] == max_students['F'] %}
+            <div class="card" id="full">
+          {% else %}
+            <div class="card" onclick="handleModal('F')">
+          {% endif %}
             <div class="inner-card">
               <p>Turma F</p>
               <p>Vespertino</p>
@@ -109,7 +133,11 @@
             </div>
           </div>
 
-          <div class="card" onclick="handleModal('G')">
+          {% if actual_students['G'] == max_students['G'] %}
+            <div class="card" id="full">
+          {% else %}
+            <div class="card" onclick="handleModal('G')">
+          {% endif %}
             <div class="inner-card">
               <p>Turma G</p>
               <p>Vespertino</p>
@@ -122,7 +150,11 @@
             </div>
           </div>
 
-          <div class="card" onclick="handleModal('H')">
+          {% if actual_students['H'] == max_students['H'] %}
+            <div class="card" id="full">
+          {% else %}
+            <div class="card" onclick="handleModal('H')">
+          {% endif %}
             <div class="inner-card">
               <p>Turma H</p>
               <p>Vespertino</p>
@@ -154,6 +186,13 @@
   <script>
 
     let myInterval = NaN;
+    let isOpen = false;
+
+    setInterval(() => {
+      if (!isOpen) {
+        window.location.reload();
+      }
+    }, 15000);
 
     function handleSave() {
       const modal = document.querySelector('.modal');
@@ -169,9 +208,11 @@
       const actualStyle = modal.style.display;
       if (actualStyle === 'block') {
         modal.style.display = 'none';
+        isOpen = false;
         myStop();
       } else {
         modal.style.display = 'block';
+        isOpen = true;
         myStart();
       }
       
