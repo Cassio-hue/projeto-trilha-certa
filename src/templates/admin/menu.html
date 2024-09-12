@@ -52,7 +52,7 @@
         {% for category, message in get_flashed_messages(with_categories=true) %}
           {% if category == "successStudent" %}
             <div class="success">{{ message }}</div>
-          {% else %}
+          {% elif category == "errorStudent" %}
             <div class="error">{{ message }}</div>
           {% endif %}
         {% endfor %}
