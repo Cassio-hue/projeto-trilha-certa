@@ -1,4 +1,5 @@
 def validar_cpf(cpf):
+    cpf = cpf.replace('.', '').replace('-', '')
     # Verifica se o CPF tem 11 dígitos
     if len(cpf) != 11:
         return False

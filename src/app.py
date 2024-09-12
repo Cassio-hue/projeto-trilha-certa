@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from db.db import Service, Periodo
+from utils.validade_cpf import validar_cpf
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -110,9 +111,17 @@ def admin_menu():
 @app.post("/admin/criar-aluno")
 def criar_aluno():
     cpf = request.form.get('cpf')
+    cpfValid = validar_cpf(cpf)
+
     if service.criar_aluno(cpf):
+        flash("Aluno cadastrado com sucesso", "successStudent")
         return redirect(url_for('admin_menu'))
     else:
+        if not cpfValid:
+            print(cpf, cpfValid)
+            flash("CPF inválido", "errorStudent")
+            return redirect(url_for('admin_menu'))
+        flash("CPF já cadastrado", "errorStudent")          
         return redirect(url_for('admin_menu'))
 
 @app.post("/admin/abrir-periodo")

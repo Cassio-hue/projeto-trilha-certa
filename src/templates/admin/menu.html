@@ -48,6 +48,15 @@
         CPF:
       </label>
       <input type="text" id="cpf" name="cpf" placeholder="Digite o CPF do aluno" required>
+      <div class="centerRes">
+        {% for category, message in get_flashed_messages(with_categories=true) %}
+          {% if category == "successStudent" %}
+            <div class="success">{{ message }}</div>
+          {% else %}
+            <div class="error">{{ message }}</div>
+          {% endif %}
+        {% endfor %}
+      </div>
 
       <div class="wrap">
         <button type="submit">

@@ -65,3 +65,8 @@ a {
 #logout {
   background-color: #f13333;
 }
+
+.error {
+  color: #f13333;
+  font-weight: bold;
+}
